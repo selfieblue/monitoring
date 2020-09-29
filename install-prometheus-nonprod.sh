@@ -58,6 +58,13 @@ mongodb://myDBReader:D1fficultP%40ssw0rd@mongodb0.example.com:27017/?authSource=
 
 # Ingress	: https://github.com/nginxinc/nginx-prometheus-exporter/blob/master/README.md
 #           https://github.com/helm/charts/tree/master/stable/prometheus-mysql-exporter
+SET GLOBAL log_output='TABLE';
+SET GLOBAL slow_query_log=1;
+SET GLOBAL long_query_time=2.0;
+SET GLOBAL log_slow_verbosity='query_plan,explain';
+SHOW VARIABLES LIKE '%slow%';
+SELECT * FROM mysql.slow_log\G
+
 helm install --name robinhood-mysql-exporter --version 0.7.1 stable/prometheus-mysql-exporter \
   --set mysql.user="username",mysql.pass="password",mysql.host="example.com",mysql.port="3306" \
   --namespace monitoring
