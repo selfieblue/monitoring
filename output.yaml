@@ -724,3 +724,11 @@ metadata:
   namespace: monitoring
 spec:
   rules:
+    - host: '*'
+      http:
+        paths:
+
+          - path: /
+            backend:
+              serviceName: RELEASE-NAME-prometheus-server
+              servicePort: 80
