@@ -47,6 +47,7 @@ helm upgrade --install prometheus --version 11.12.1 stable/prometheus \
   --set server.resources.requests.memory="512Mi" \
   --set server.ingress.enabled="true" \
   --set server.ingress.annotations."kubernetes\.io/ingress\.class"="gce-internal" \
+  --set server.ingress.hosts[0]="*"\
   -f values-nonprod.yaml \
   --namespace monitoring
 
