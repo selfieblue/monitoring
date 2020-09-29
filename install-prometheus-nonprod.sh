@@ -34,6 +34,24 @@ kubectl get sc
 #   --set nodeExporter.securityContext.runAsUser=65534 \
 #   --namespace monitoring
 
+# helm upgrade --install prometheus --version 11.12.1 stable/prometheus \
+#   --set serviceAccounts.alertmanager.create="false" \
+#   --set serviceAccounts.pushgateway.create="false" \
+#   --set alertmanager.enabled="false" \
+#   --set kubeStateMetrics.enabled="false" \
+#   --set server.persistentVolume.size="50Gi" \
+#   --set server.persistentVolume.storageClass="ssd" \
+#   --set server.resources.limits.cpu="2000m" \
+#   --set server.resources.limits.memory="4096Mi" \
+#   --set server.resources.requests.cpu="1000m" \
+#   --set server.resources.requests.memory="512Mi" \
+#   --set server.ingress.enabled="true" \
+#   --set server.ingress.annotations."kubernetes\.io/ingress\.class"="gce-internal" \
+#   --set server.ingress.hosts[0]="'*'"\
+#   -f values-nonprod.yaml \
+#   --namespace monitoring
+
+
 helm upgrade --install prometheus --version 11.12.1 stable/prometheus \
   --set serviceAccounts.alertmanager.create="false" \
   --set serviceAccounts.pushgateway.create="false" \
@@ -45,11 +63,9 @@ helm upgrade --install prometheus --version 11.12.1 stable/prometheus \
   --set server.resources.limits.memory="4096Mi" \
   --set server.resources.requests.cpu="1000m" \
   --set server.resources.requests.memory="512Mi" \
-  --set server.ingress.enabled="true" \
-  --set server.ingress.annotations."kubernetes\.io/ingress\.class"="gce-internal" \
-  --set server.ingress.hosts[0]="*"\
   -f values-nonprod.yaml \
   --namespace monitoring
+
 
 kubectl -n monitoring scale --replicas=1 deployment prometheus-server  
 
